@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>运动会 - 班级回忆录</title>
+    <title>五一歌唱比赛 - 班级回忆录</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --primary: #f97316; --secondary: #fb923c; --accent: #ef4444; --dark: #1e1b4b; }
+        :root { --primary: #8b5cf6; --secondary: #ec4899; --accent: #f59e0b; --dark: #1e1b4b; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', 'Microsoft YaHei', sans-serif; background: #0f0f1a; color: #fff; min-height: 100vh; overflow-x: hidden; }
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #2d1b4e 100%); }
-        .bg-animation::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%); animation: rotate 30s linear infinite; }
+        .bg-animation::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%); animation: rotate 30s linear infinite; }
         @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
-        .particle { position: absolute; width: 4px; height: 4px; background: rgba(249,115,22,0.6); border-radius: 50%; animation: float 15s infinite; box-shadow: 0 0 10px rgba(249,115,22,0.8); }
+        .particle { position: absolute; width: 4px; height: 4px; background: rgba(139,92,246,0.6); border-radius: 50%; animation: float 15s infinite; box-shadow: 0 0 10px rgba(139,92,246,0.8); }
         @keyframes float { 0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
+        .music-notes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+        .note { position: absolute; font-size: 24px; color: rgba(236,72,153,0.4); animation: musicFloat 8s infinite; }
+        @keyframes musicFloat { 0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg) scale(1.2); opacity: 0; } }
         .back-btn { position: fixed; top: 30px; left: 30px; z-index: 1000; display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 16px; padding: 12px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transition: all 0.4s; }
-        .back-btn:hover { background: rgba(255,255,255,0.15); transform: translateX(-8px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(249,115,22,0.3); }
+        .back-btn:hover { background: rgba(255,255,255,0.15); transform: translateX(-8px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(139,92,246,0.3); }
         .back-btn svg { width: 20px; height: 20px; transition: transform 0.4s; }
         .back-btn:hover svg { transform: translateX(-3px); }
         .container { max-width: 1200px; margin: 0 auto; padding: 120px 40px 60px; }
         .photo-showcase { text-align: center; margin-bottom: 60px; opacity: 0; transform: translateY(50px); animation: fadeInUp 1s ease 0.2s forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .photo-title { font-family: 'Noto Serif SC', serif; font-size: clamp(32px, 6vw, 56px); font-weight: 700; margin-bottom: 15px; background: linear-gradient(135deg, #fff 0%, #fdba74 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite; }
-        @keyframes titleGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(249,115,22,0.5)); } 50% { filter: drop-shadow(0 0 40px rgba(249,115,22,0.8)); } }
-        .photo-status { display: inline-block; padding: 10px 25px; background: rgba(249,115,22,0.15); border: 2px solid var(--primary); border-radius: 30px; color: var(--primary); font-size: 15px; letter-spacing: 2px; font-weight: 600; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 50% { box-shadow: 0 0 0 15px rgba(249,115,22,0); } }
+        .photo-title { font-family: 'Noto Serif SC', serif; font-size: clamp(32px, 6vw, 56px); font-weight: 700; margin-bottom: 15px; background: linear-gradient(135deg, #fff 0%, #f0abfc 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite; }
+        @keyframes titleGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(236,72,153,0.5)); } 50% { filter: drop-shadow(0 0 40px rgba(236,72,153,0.8)); } }
+        .photo-status { display: inline-block; padding: 10px 25px; background: rgba(236,72,153,0.15); border: 2px solid var(--secondary); border-radius: 30px; color: var(--secondary); font-size: 15px; letter-spacing: 2px; font-weight: 600; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.4); } 50% { box-shadow: 0 0 0 15px rgba(236,72,153,0); } }
         
         /* 照片网格 */
         .photo-grid {
@@ -52,7 +55,7 @@
         .photo-card:nth-child(2) { animation: fadeInUp 1s ease 0.6s forwards; }
         .photo-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(249,115,22,0.4);
+            box-shadow: 0 30px 60px rgba(139,92,246,0.4);
             border-color: var(--primary);
         }
         .photo-card img {
@@ -85,18 +88,18 @@
         
         .description { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 25px; padding: 50px; margin-bottom: 40px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(40px); animation: fadeInUp 1s ease 0.8s forwards; transition: all 0.4s; position: relative; overflow: hidden; }
         .description::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: linear-gradient(180deg, var(--primary), var(--secondary)); }
-        .description:hover { background: rgba(255,255,255,0.06); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(249,115,22,0.2); }
-        .description h2 { font-size: 28px; margin-bottom: 25px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; position: relative; }
-        .description h2::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 3px; }
+        .description:hover { background: rgba(255,255,255,0.06); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(139,92,246,0.2); }
+        .description h2 { font-size: 28px; margin-bottom: 25px; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; position: relative; }
+        .description h2::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
         .description p { color: rgba(255,255,255,0.75); line-height: 2; font-size: 17px; margin-bottom: 15px; }
-        .highlight { display: inline-block; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; animation: highlightPulse 2s infinite; }
+        .highlight { display: inline-block; background: linear-gradient(135deg, var(--secondary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 600; animation: highlightPulse 2s infinite; }
         @keyframes highlightPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 30px; }
         .info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center; transition: all 0.4s; opacity: 0; transform: translateY(30px); }
         .info-card:nth-child(1) { animation: fadeInUp 0.8s ease 0.9s forwards; }
         .info-card:nth-child(2) { animation: fadeInUp 0.8s ease 1s forwards; }
         .info-card:nth-child(3) { animation: fadeInUp 0.8s ease 1.1s forwards; }
-        .info-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(249,115,22,0.3); }
+        .info-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(139,92,246,0.3); }
         .info-icon { font-size: 36px; margin-bottom: 15px; animation: bounce 2s infinite; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .info-label { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
@@ -110,6 +113,7 @@
 <body>
     <div class="bg-animation"></div>
     <div class="particles" id="particles"></div>
+    <div class="music-notes" id="music-notes"></div>
     <div class="progress-bar" id="progress-bar"></div>
     
     <a href="index.html" class="back-btn">
@@ -121,24 +125,24 @@
     
     <div class="container">
         <div class="photo-showcase">
-            <h1 class="photo-title">🏃 运动会</h1>
-            <span class="photo-status">🏆 拼搏·荣耀</span>
+            <h1 class="photo-title">🎤 五一歌唱比赛</h1>
+            <span class="photo-status">🏆 2025 年 5 月 · 平凡之路</span>
         </div>
         
         <!-- 照片网格 -->
         <div class="photo-grid">
             <div class="photo-card">
-                <img src="images/sports-meeting3.jpg" alt="运动会瞬间">
+                <img src="images/singing-contest.jpg" alt="舞台表演">
                 <div class="photo-info">
-                    <span class="photo-label">🎬 赛场瞬间</span>
-                    <p class="photo-desc">跑道上飞驰的身影，跳远池边的起跳，实心球划过的弧线。每一个瞬间，都是青春最美的模样。</p>
+                    <span class="photo-label">🎬 舞台瞬间</span>
+                    <p class="photo-desc">聚光灯下，我们用歌声致敬青春。《平凡之路》的旋律响起，全场安静，只有我们的声音在礼堂回荡。</p>
                 </div>
             </div>
             <div class="photo-card">
-                <img src="images/sports-meeting2.jpg" alt="运动会加油">
+                <img src="images/singing-contest2.jpg" alt="幕后花絮">
                 <div class="photo-info">
-                    <span class="photo-label">📣 加油呐喊</span>
-                    <p class="photo-desc">场边的呐喊声此起彼伏，全班一起为运动员加油。那份团结和热血，至今难忘。</p>
+                    <span class="photo-label">✨ 幕后花絮</span>
+                    <p class="photo-desc">无数次排练，无数次纠正音准。汗水与坚持，换来舞台上的完美绽放。</p>
                 </div>
             </div>
         </div>
@@ -146,35 +150,34 @@
         <div class="description">
             <h2>📝 回忆记录</h2>
             <p>
-                运动场上，我们<span class="highlight">挥洒汗水</span>，为班级荣誉而战。
+                <span class="highlight">2025 年五一劳动节</span>，我们站在歌唱比赛的舞台上，用歌声致敬青春。
             </p>
             <p>
-                接力赛的默契配合，拔河比赛的齐心协力，跑步比赛的奋力冲刺...
-                每一次拼搏，每一次呐喊，每一次欢呼，都凝聚成最珍贵的回忆。
+                聚光灯下，每一个音符都承载着我们的热情与梦想。
+                台下的掌声、台上的紧张、排练的汗水，都是最珍贵的回忆。
             </p>
             <p>
-                还记得冲过终点线时全班的欢呼，
-                记得接力棒传递时那份信任，
-                记得拔河时涨红的脸和紧握的手，
-                记得领奖台上灿烂的笑容...
-                那些热血沸腾的日子，永远闪闪发光。
+                还记得排练时老师一遍遍的指导，记得上台前大家互相加油打气的场景，
+                记得当《平凡之路》的旋律响起时，全场安静的瞬间...
+                "我曾经跨过山和大海，也穿过人山人海"，
+                那一刻，所有的努力都值得。
             </p>
             
             <div class="info-grid">
                 <div class="info-card">
                     <div class="info-icon">📍</div>
                     <div class="info-label">地点</div>
-                    <div class="info-value">学校操场</div>
+                    <div class="info-value">学校礼堂</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-icon">🏃</div>
-                    <div class="info-label">项目</div>
-                    <div class="info-value">跑步/跳远/接力/拔河</div>
+                    <div class="info-icon">🎵</div>
+                    <div class="info-label">曲目</div>
+                    <div class="info-value">平凡之路</div>
                 </div>
                 <div class="info-card">
                     <div class="info-icon">🏆</div>
-                    <div class="info-label">精神</div>
-                    <div class="info-value">友谊第一 比赛第二</div>
+                    <div class="info-label">荣誉</div>
+                    <div class="info-value">团体一等奖</div>
                 </div>
             </div>
         </div>
@@ -197,6 +200,21 @@
             }
         }
         createParticles();
+        
+        function createMusicNotes() {
+            const container = document.getElementById('music-notes');
+            const notes = ['♪', '♫', '♬', '♩'];
+            for (let i = 0; i < 15; i++) {
+                const note = document.createElement('div');
+                note.className = 'note';
+                note.textContent = notes[Math.floor(Math.random() * notes.length)];
+                note.style.left = Math.random() * 100 + '%';
+                note.style.animationDelay = Math.random() * 8 + 's';
+                note.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                container.appendChild(note);
+            }
+        }
+        createMusicNotes();
         
         window.addEventListener('scroll', () => {
             const progressBar = document.getElementById('progress-bar');

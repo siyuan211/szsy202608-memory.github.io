@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>运动会 - 班级回忆录</title>
+    <title>备战体考 - 班级回忆录</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,69 +21,20 @@
         .back-btn svg { width: 20px; height: 20px; transition: transform 0.4s; }
         .back-btn:hover svg { transform: translateX(-3px); }
         .container { max-width: 1200px; margin: 0 auto; padding: 120px 40px 60px; }
-        .photo-showcase { text-align: center; margin-bottom: 60px; opacity: 0; transform: translateY(50px); animation: fadeInUp 1s ease 0.2s forwards; }
+        .photo-showcase { text-align: center; margin-bottom: 80px; opacity: 0; transform: translateY(50px); animation: fadeInUp 1s ease 0.2s forwards; }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .photo-title { font-family: 'Noto Serif SC', serif; font-size: clamp(32px, 6vw, 56px); font-weight: 700; margin-bottom: 15px; background: linear-gradient(135deg, #fff 0%, #fdba74 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite; }
+        .photo-main { width: 100%; max-width: 900px; aspect-ratio: 16/9; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 25px; margin: 0 auto 40px; overflow: hidden; box-shadow: 0 40px 80px rgba(249,115,22,0.4); position: relative; transition: all 0.5s; }
+        .photo-main:hover { transform: scale(1.02); box-shadow: 0 50px 100px rgba(249,115,22,0.5); }
+        .photo-main img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s; }
+        .photo-main:hover img { transform: scale(1.1); }
+        .photo-main::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%); pointer-events: none; }
+        .photo-main::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); animation: shine 3s infinite; }
+        @keyframes shine { 0% { left: -100%; } 100% { left: 100%; } }
+        .photo-title { font-family: 'Noto Serif SC', serif; font-size: clamp(32px, 6vw, 56px); font-weight: 700; margin-bottom: 20px; background: linear-gradient(135deg, #fff 0%, #fdba74 50%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: titleGlow 3s ease-in-out infinite; }
         @keyframes titleGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(249,115,22,0.5)); } 50% { filter: drop-shadow(0 0 40px rgba(249,115,22,0.8)); } }
         .photo-status { display: inline-block; padding: 10px 25px; background: rgba(249,115,22,0.15); border: 2px solid var(--primary); border-radius: 30px; color: var(--primary); font-size: 15px; letter-spacing: 2px; font-weight: 600; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); } 50% { box-shadow: 0 0 0 15px rgba(249,115,22,0); } }
-        
-        /* 照片网格 */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        @media (max-width: 768px) {
-            .photo-grid { grid-template-columns: 1fr; }
-        }
-        .photo-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 25px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            transition: all 0.5s;
-            opacity: 0;
-            transform: translateY(40px);
-        }
-        .photo-card:nth-child(1) { animation: fadeInUp 1s ease 0.4s forwards; }
-        .photo-card:nth-child(2) { animation: fadeInUp 1s ease 0.6s forwards; }
-        .photo-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(249,115,22,0.4);
-            border-color: var(--primary);
-        }
-        .photo-card img {
-            width: 100%;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-            transition: transform 0.8s;
-        }
-        .photo-card:hover img {
-            transform: scale(1.1);
-        }
-        .photo-info {
-            padding: 30px;
-        }
-        .photo-label {
-            display: inline-block;
-            padding: 6px 15px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-        .photo-desc {
-            color: rgba(255,255,255,0.7);
-            line-height: 1.8;
-            font-size: 15px;
-        }
-        
-        .description { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 25px; padding: 50px; margin-bottom: 40px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(40px); animation: fadeInUp 1s ease 0.8s forwards; transition: all 0.4s; position: relative; overflow: hidden; }
+        .description { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 25px; padding: 50px; margin-bottom: 40px; backdrop-filter: blur(20px); opacity: 0; transform: translateY(40px); animation: fadeInUp 1s ease 0.5s forwards; transition: all 0.4s; position: relative; overflow: hidden; }
         .description::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: linear-gradient(180deg, var(--primary), var(--secondary)); }
         .description:hover { background: rgba(255,255,255,0.06); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(249,115,22,0.2); }
         .description h2 { font-size: 28px; margin-bottom: 25px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block; position: relative; }
@@ -93,9 +44,9 @@
         @keyframes highlightPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
         .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 30px; }
         .info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 25px; text-align: center; transition: all 0.4s; opacity: 0; transform: translateY(30px); }
-        .info-card:nth-child(1) { animation: fadeInUp 0.8s ease 0.9s forwards; }
-        .info-card:nth-child(2) { animation: fadeInUp 0.8s ease 1s forwards; }
-        .info-card:nth-child(3) { animation: fadeInUp 0.8s ease 1.1s forwards; }
+        .info-card:nth-child(1) { animation: fadeInUp 0.8s ease 0.7s forwards; }
+        .info-card:nth-child(2) { animation: fadeInUp 0.8s ease 0.8s forwards; }
+        .info-card:nth-child(3) { animation: fadeInUp 0.8s ease 0.9s forwards; }
         .info-card:hover { background: rgba(255,255,255,0.08); transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 15px 40px rgba(249,115,22,0.3); }
         .info-icon { font-size: 36px; margin-bottom: 15px; animation: bounce 2s infinite; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
@@ -104,7 +55,7 @@
         footer { text-align: center; padding: 50px 40px; color: rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.05); margin-top: 60px; }
         footer p { font-size: 14px; }
         .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); z-index: 9999; transition: width 0.1s; }
-        @media (max-width: 768px) { .container { padding: 100px 20px 40px; } .back-btn { top: 20px; left: 20px; padding: 10px 15px; font-size: 14px; } .description { padding: 30px 20px; } }
+        @media (max-width: 768px) { .container { padding: 100px 20px 40px; } .back-btn { top: 20px; left: 20px; padding: 10px 15px; font-size: 14px; } .description { padding: 30px 20px; } .photo-main { border-radius: 15px; } }
     </style>
 </head>
 <body>
@@ -121,43 +72,29 @@
     
     <div class="container">
         <div class="photo-showcase">
-            <h1 class="photo-title">🏃 运动会</h1>
-            <span class="photo-status">🏆 拼搏·荣耀</span>
-        </div>
-        
-        <!-- 照片网格 -->
-        <div class="photo-grid">
-            <div class="photo-card">
-                <img src="images/sports-meeting3.jpg" alt="运动会瞬间">
-                <div class="photo-info">
-                    <span class="photo-label">🎬 赛场瞬间</span>
-                    <p class="photo-desc">跑道上飞驰的身影，跳远池边的起跳，实心球划过的弧线。每一个瞬间，都是青春最美的模样。</p>
-                </div>
+            <div class="photo-main">
+                <img src="images/sports-exam.jpg" alt="备战体考">
             </div>
-            <div class="photo-card">
-                <img src="images/sports-meeting2.jpg" alt="运动会加油">
-                <div class="photo-info">
-                    <span class="photo-label">📣 加油呐喊</span>
-                    <p class="photo-desc">场边的呐喊声此起彼伏，全班一起为运动员加油。那份团结和热血，至今难忘。</p>
-                </div>
-            </div>
+            <h1 class="photo-title">🏃 备战体考</h1>
+            <span class="photo-status">💪 拼搏青春</span>
         </div>
         
         <div class="description">
             <h2>📝 回忆记录</h2>
             <p>
-                运动场上，我们<span class="highlight">挥洒汗水</span>，为班级荣誉而战。
+                <span class="highlight">体育中考</span>，是我们初中生涯的最后一场考验。
             </p>
             <p>
-                接力赛的默契配合，拔河比赛的齐心协力，跑步比赛的奋力冲刺...
-                每一次拼搏，每一次呐喊，每一次欢呼，都凝聚成最珍贵的回忆。
+                操场上，我们挥洒汗水，一次次冲刺、一次次跳跃、一次次投掷。
+                累到喘不过气，却从未放弃；痛到想要停下，却咬牙坚持。
+                因为知道，每一次努力，都是在为梦想加分。
             </p>
             <p>
-                还记得冲过终点线时全班的欢呼，
-                记得接力棒传递时那份信任，
-                记得拔河时涨红的脸和紧握的手，
-                记得领奖台上灿烂的笑容...
-                那些热血沸腾的日子，永远闪闪发光。
+                还记得跑完 800/1000 米后瘫倒在地的瞬间，
+                记得同学们互相加油打气的呐喊，
+                记得老师在一旁焦急的鼓励，
+                记得冲过终点线时那如释重负的笑容...
+                那些拼命的日子，终将闪闪发光。
             </p>
             
             <div class="info-grid">
@@ -169,12 +106,12 @@
                 <div class="info-card">
                     <div class="info-icon">🏃</div>
                     <div class="info-label">项目</div>
-                    <div class="info-value">跑步/跳远/接力/拔河</div>
+                    <div class="info-value">跑步/跳远/实心球</div>
                 </div>
                 <div class="info-card">
-                    <div class="info-icon">🏆</div>
-                    <div class="info-label">精神</div>
-                    <div class="info-value">友谊第一 比赛第二</div>
+                    <div class="info-icon">🎯</div>
+                    <div class="info-label">目标</div>
+                    <div class="info-value">满分！</div>
                 </div>
             </div>
         </div>

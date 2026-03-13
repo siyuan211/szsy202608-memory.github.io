@@ -374,6 +374,21 @@
             box-shadow: 0 20px 40px rgba(99,102,241,0.2);
         }
         
+        .classmate-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .classmate-card:hover .classmate-photo {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
         .avatar {
             width: 80px;
             height: 80px;
@@ -494,53 +509,186 @@
             line-height: 1.6;
         }
         
-        /* 留言板 - 便签风格 */
+        /* 留言板 - 高级动效 */
         .message-board {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
+            perspective: 1000px;
         }
-        
+
         .message-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 20px;
+            padding: 30px;
             position: relative;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px) rotateY(10deg);
+            animation: cardReveal 0.8s ease forwards;
         }
-        
+
+        .message-card:nth-child(1) { animation-delay: 0.1s; }
+        .message-card:nth-child(2) { animation-delay: 0.2s; }
+        .message-card:nth-child(3) { animation-delay: 0.3s; }
+        .message-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateY(0);
+            }
+        }
+
+        /* 光晕效果 */
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%);
+            animation: haloRotate 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes haloRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 悬停光效扫描 */
+        .message-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s;
+            pointer-events: none;
+        }
+
+        .message-card:hover::after {
+            left: 100%;
+        }
+
         .message-card:hover {
-            transform: translateY(-5px) rotate(2deg);
-            box-shadow: 0 15px 35px rgba(99,102,241,0.2);
+            transform: translateY(-15px) scale(1.05) rotateZ(-2deg);
+            box-shadow: 0 25px 50px rgba(236,72,153,0.3), 0 0 30px rgba(236,72,153,0.2);
+            border-color: rgba(236,72,153,0.5);
         }
-        
+
         .message-card:nth-child(even):hover {
-            transform: translateY(-5px) rotate(-2deg);
+            transform: translateY(-15px) scale(1.05) rotateZ(2deg);
         }
-        
+
+        /* 头像动画 */
         .message-author {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .message-avatar {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 22px;
+            box-shadow: 0 5px 20px rgba(236,72,153,0.4);
+            animation: avatarFloat 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
         }
-        
+
+        .message-card:nth-child(2) .message-avatar { animation-delay: 0.2s; }
+        .message-card:nth-child(3) .message-avatar { animation-delay: 0.4s; }
+        .message-card:nth-child(4) .message-avatar { animation-delay: 0.6s; }
+
+        @keyframes avatarFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-5px) scale(1.05); }
+        }
+
+        .message-avatar::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            border: 2px solid rgba(236,72,153,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
         .message-name {
-            font-weight: 600;
-            font-size: 16px;
+            font-weight: 700;
+            font-size: 18px;
+            background: linear-gradient(135deg, #f472b6, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(236,72,153,0.3);
+        }
+
+        .message-content {
+            color: rgba(255,255,255,0.85);
+            line-height: 2;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .message-date {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(236,72,153,0.6);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 爱心漂浮 */
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            font-size: 12px;
+            color: rgba(236,72,153,0.4);
+            animation: heartFloat 6s linear infinite;
+        }
+
+        @keyframes heartFloat {
+            0% { transform: translateY(100%) scale(0); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
         }
         
         .message-content {
@@ -714,20 +862,29 @@
                     <div class="photo-overlay"><span>点击查看</span></div>
                 </div>
                 </a>
-                <a href="photos-performance.html" style="text-decoration: none; color: inherit;">
+                <a href="photos-singing.html" style="text-decoration: none; color: inherit;">
                 <div class="photo-card fade-in">
                     <div class="photo-content">
                         <div class="photo-icon">🎤</div>
-                        <div class="photo-title">文艺汇演</div>
+                        <div class="photo-title">五一歌唱比赛</div>
                     </div>
                     <div class="photo-overlay"><span>点击查看</span></div>
                 </div>
                 </a>
-                <a href="photos-spring.html" style="text-decoration: none; color: inherit;">
+                <a href="photos-study-tour.html" style="text-decoration: none; color: inherit;">
                 <div class="photo-card fade-in">
                     <div class="photo-content">
-                        <div class="photo-icon">🌸</div>
-                        <div class="photo-title">春游踏青</div>
+                        <div class="photo-icon">🚌</div>
+                        <div class="photo-title">研学之旅</div>
+                    </div>
+                    <div class="photo-overlay"><span>点击查看</span></div>
+                </div>
+                </a>
+                <a href="photos-sports-exam.html" style="text-decoration: none; color: inherit;">
+                <div class="photo-card fade-in">
+                    <div class="photo-content">
+                        <div class="photo-icon">💪</div>
+                        <div class="photo-title">备战体考</div>
                     </div>
                     <div class="photo-overlay"><span>点击查看</span></div>
                 </div>
@@ -737,15 +894,6 @@
                     <div class="photo-content">
                         <div class="photo-icon">📚</div>
                         <div class="photo-title">课堂时光</div>
-                    </div>
-                    <div class="photo-overlay"><span>点击查看</span></div>
-                </div>
-                </a>
-                <a href="photos-party.html" style="text-decoration: none; color: inherit;">
-                <div class="photo-card fade-in">
-                    <div class="photo-content">
-                        <div class="photo-icon">🎉</div>
-                        <div class="photo-title">元旦晚会</div>
                     </div>
                     <div class="photo-overlay"><span>点击查看</span></div>
                 </div>
@@ -761,44 +909,49 @@
             </div>
             <div class="classmate-grid">
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🦁</div>
+                    <img src="images/study-first.jpg" alt="学习之星" class="classmate-photo">
+                    <div class="classmate-name">学习之星</div>
+                    <div class="classmate-nickname">"年级第一"</div>
+                </div>
+                <div class="classmate-card fade-in">
+                    <img src="images/study-second.jpg" alt="学习第二" class="classmate-photo">
                     <div class="classmate-name">张同学</div>
                     <div class="classmate-nickname">"学霸大神"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🐰</div>
+                    <img src="images/study-third.jpg" alt="学习第三" class="classmate-photo">
                     <div class="classmate-name">李同学</div>
                     <div class="classmate-nickname">"文艺女神"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🐯</div>
-                    <div class="classmate-name">王同学</div>
+                    <img src="images/sports-leader.jpg" alt="体育担当" class="classmate-photo">
+                    <div class="classmate-name">体育担当</div>
                     <div class="classmate-nickname">"运动健将"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🐼</div>
-                    <div class="classmate-name">赵同学</div>
-                    <div class="classmate-nickname">"开心果"</div>
+                    <img src="images/sports-star.jpg" alt="体育之星" class="classmate-photo">
+                    <div class="classmate-name">体育之星</div>
+                    <div class="classmate-nickname">"田径王者"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🦊</div>
-                    <div class="classmate-name">刘同学</div>
-                    <div class="classmate-nickname">"班长大人"</div>
+                    <img src="images/entertainment-star.jpg" alt="娱乐之星" class="classmate-photo">
+                    <div class="classmate-name">娱乐之星</div>
+                    <div class="classmate-nickname">"搞笑担当"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🐨</div>
-                    <div class="classmate-name">陈同学</div>
-                    <div class="classmate-nickname">"睡神"</div>
+                    <img src="images/beauty-star.jpg" alt="颜值担当" class="classmate-photo">
+                    <div class="classmate-name">颜值担当</div>
+                    <div class="classmate-nickname">"班花/班草"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🐧</div>
-                    <div class="classmate-name">杨同学</div>
-                    <div class="classmate-nickname">"英语课代表"</div>
+                    <img src="images/funny-star.jpg" alt="搞笑之星" class="classmate-photo">
+                    <div class="classmate-name">搞笑之星</div>
+                    <div class="classmate-nickname">"幽默大王"</div>
                 </div>
                 <div class="classmate-card fade-in">
-                    <div class="avatar">🦄</div>
-                    <div class="classmate-name">周同学</div>
-                    <div class="classmate-nickname">"数学天才"</div>
+                    <img src="images/fairy-girl.jpg" alt="小仙女" class="classmate-photo">
+                    <div class="classmate-name">小仙女</div>
+                    <div class="classmate-nickname">"温柔可爱"</div>
                 </div>
             </div>
         </section>
@@ -813,41 +966,97 @@
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">2021 年 9 月</div>
-                        <div class="timeline-title">初次相遇</div>
-                        <div class="timeline-desc">带着憧憬和紧张，我们踏入了这所校园，成为了一个大家庭</div>
+                        <div class="timeline-date">2023.09.06</div>
+                        <div class="timeline-title">🏫 初入校园</div>
+                        <div class="timeline-desc">
+                            九月的阳光正好，我们带着憧憬与期待踏入立格实验。
+                            陌生的教室、陌生的面孔，却有着同样的梦想与热情。
+                            从这一刻起，我们成为了一个大家庭。
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">2021 年 10 月</div>
-                        <div class="timeline-title">第一次运动会</div>
-                        <div class="timeline-desc">全班齐心协力，获得了团体总分第三名的好成绩</div>
+                        <div class="timeline-date">2023.11.04</div>
+                        <div class="timeline-title">🎉 校庆盛典</div>
+                        <div class="timeline-desc">
+                            学校迎来华诞，我们身着盛装参加庆典。
+                            看着舞台上的精彩表演，听着校史馆里的动人故事，
+                            为身为立格人而自豪。
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">2022 年 5 月</div>
-                        <div class="timeline-title">文艺汇演</div>
-                        <div class="timeline-desc">我们的合唱节目《青春》获得了全校一等奖</div>
+                        <div class="timeline-date">2024.04.03</div>
+                        <div class="timeline-title">🏃 春季运动会</div>
+                        <div class="timeline-desc">
+                            运动场上挥洒汗水，跑道上奋力冲刺。
+                            接力棒的传递是信任的交接，拔河比赛是团结的较量。
+                            呐喊声、欢呼声，至今仍在耳边回荡。
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">2022 年 9 月</div>
-                        <div class="timeline-title">秋季研学</div>
-                        <div class="timeline-desc">一起去博物馆参观，增长了见识，也增进了友谊</div>
+                        <div class="timeline-date">2024.10.22</div>
+                        <div class="timeline-title">🔬 科技节</div>
+                        <div class="timeline-desc">
+                            走进科技的世界，感受创新的力量。
+                            机器人表演、科学实验、创意制作...
+                            每一次尝试都是成长，每一个发现都是惊喜。
+                        </div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">2023 年 6 月</div>
-                        <div class="timeline-title">毕业典礼</div>
-                        <div class="timeline-desc">带着不舍与祝福，我们毕业了，但友谊永不散场</div>
+                        <div class="timeline-date">2025.04.13</div>
+                        <div class="timeline-title">🚌 街子之路</div>
+                        <div class="timeline-desc">
+                            踏上研学旅程，走进街子古镇。
+                            青石板路、古色古香的建筑、浓郁的川西风情。
+                            一路欢声笑语，一路收获成长。
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025.05.17</div>
+                        <div class="timeline-title">🎤 歌唱比赛</div>
+                        <div class="timeline-desc">
+                            舞台上的光芒万丈，源于无数次的排练。
+                            《平凡之路》的旋律响起，全场安静聆听。
+                            "我曾经跨过山和大海"，那一刻，所有的努力都值得。
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025.12.02</div>
+                        <div class="timeline-title">🏆 表彰大会</div>
+                        <div class="timeline-desc">
+                            站在领奖台上的荣耀时刻，是对努力的最好肯定。
+                            奖状、掌声、笑容，定格成最美的画面。
+                            这是终点，更是新的起点。
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: linear-gradient(135deg, #f59e0b, #fbbf24); box-shadow: 0 0 20px rgba(245,158,11,0.6);"></div>
+                    <div class="timeline-content" style="border-color: rgba(245,158,11,0.3);">
+                        <div class="timeline-date" style="color: #fbbf24;">✨ 未完待续</div>
+                        <div class="timeline-title">🚀 未来可期</div>
+                        <div class="timeline-desc">
+                            我们的故事还在继续，更多的精彩等待书写。
+                            愿此去前程似锦，归来仍是少年。
+                            青春不散场，我们顶峰相见...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -862,43 +1071,43 @@
             <div class="message-board">
                 <div class="message-card fade-in">
                     <div class="message-author">
-                        <div class="message-avatar">🦁</div>
-                        <div class="message-name">班长</div>
+                        <div class="message-avatar">❓</div>
+                        <div class="message-name">未知</div>
                     </div>
                     <div class="message-content">
-                        感谢大家三年来对我工作的支持，希望我们都能考上理想的高中！常联系！
+                        其实，我一直偷偷注意着你。自习课上你认真做题的侧脸，操场上你奔跑的身影，还有你笑起来时弯弯的眼睛... 这些画面，我都好好收藏在心里。
                     </div>
-                    <div class="message-date">2024.01.15</div>
+                    <div class="message-date">🕐 某个黄昏</div>
                 </div>
                 <div class="message-card fade-in">
                     <div class="message-author">
-                        <div class="message-avatar">🐰</div>
-                        <div class="message-name">学习委员</div>
+                        <div class="message-avatar">🌙</div>
+                        <div class="message-name">未知</div>
                     </div>
                     <div class="message-content">
-                        虽然毕业了，但学习群不要散，有问题我们还要一起讨论哦~
+                        那天的歌唱比赛，你站在舞台中央唱歌的样子，真的很耀眼。《平凡之路》的旋律还在耳边回响，而我想说的是——你比星光更闪亮。
                     </div>
-                    <div class="message-date">2024.01.16</div>
+                    <div class="message-date">🕐 2025.05.17 晚</div>
                 </div>
                 <div class="message-card fade-in">
                     <div class="message-author">
-                        <div class="message-avatar">🐯</div>
-                        <div class="message-name">体育委员</div>
+                        <div class="message-avatar">💌</div>
+                        <div class="message-name">未知</div>
                     </div>
                     <div class="message-content">
-                        以后有空记得约球啊！篮球、足球都可以！体育馆见！
+                        传过的小纸条，借过的半块橡皮，课桌下偷偷递的零食... 那些看似平常的瞬间，对我来说都是珍贵的回忆。希望有一天，能亲口告诉你我的心意。
                     </div>
-                    <div class="message-date">2024.01.17</div>
+                    <div class="message-date">🕐 一个普通的午后</div>
                 </div>
                 <div class="message-card fade-in">
                     <div class="message-author">
-                        <div class="message-avatar">🐼</div>
-                        <div class="message-name">文艺委员</div>
+                        <div class="message-avatar">✨</div>
+                        <div class="message-name">未知</div>
                     </div>
                     <div class="message-content">
-                        期待下次聚会，我们还要一起唱歌跳舞！青春永不散场！
+                        毕业不是结束，而是新的开始。愿此去前程似锦，愿我们都能在各自的道路上闪闪发光。如果有一天再次相遇，希望我们都能成为更好的自己。
                     </div>
-                    <div class="message-date">2024.01.18</div>
+                    <div class="message-date">🕐 毕业季</div>
                 </div>
             </div>
         </section>
@@ -914,10 +1123,10 @@
     <!-- 页脚 -->
     <footer>
         <p>
-            <span class="heart">❤</span> 致我们终将逝去却永远珍藏的青春 
+            <span class="heart">❤</span> 致我们终将逝去却永远珍藏的青春
             <span class="heart">❤</span>
         </p>
-        <p style="margin-top: 15px;">© 2024 初中班级回忆录 | Made with love</p>
+        <p style="margin-top: 15px;">© 2026 立格实验学校 2026 级 8 班 | 青春不散场</p>
     </footer>
     
     <script>
