@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课堂时光 - 班级回忆录</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #3b82f6; --secondary: #60a5fa; --accent: #ec4899; }
+        body { font-family: 'Poppins', 'Microsoft YaHei', sans-serif; background: #0f0f1a; color: #fff; min-height: 100vh; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #2d1b4e 100%); }
+        .back-btn { position: fixed; top: 30px; left: 30px; z-index: 1000; display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.8); text-decoration: none; font-size: 16px; padding: 12px 20px; background: rgba(255,255,255,0.1); border-radius: 30px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+        .back-btn:hover { background: rgba(255,255,255,0.2); transform: translateX(-5px); }
+        .back-btn svg { width: 20px; height: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 40px 60px; }
+        .photo-showcase { text-align: center; margin-bottom: 60px; }
+        .photo-main { width: 100%; max-width: 900px; aspect-ratio: 16/9; background: linear-gradient(135deg, #3b82f6, #60a5fa); border-radius: 20px; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 30px 60px rgba(59,130,246,0.3); }
+        .photo-placeholder { font-size: 80px; opacity: 0.5; }
+        .photo-title { font-family: 'Noto Serif SC', serif; font-size: clamp(28px, 5vw, 48px); margin-bottom: 15px; background: linear-gradient(135deg, #fff, #bfdbfe); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .description { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 40px; margin-bottom: 40px; backdrop-filter: blur(10px); }
+        .description h2 { font-size: 24px; margin-bottom: 20px; color: var(--primary); }
+        .description p { color: rgba(255,255,255,0.7); line-height: 1.8; font-size: 16px; }
+        footer { text-align: center; padding: 40px; color: rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.1); margin-top: 60px; }
+        @media (max-width: 768px) { .container { padding: 80px 20px 40px; } .back-btn { top: 20px; left: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <a href="index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        返回首页
+    </a>
+    <div class="container">
+        <div class="photo-showcase">
+            <div class="photo-main"><div class="photo-placeholder">📚</div></div>
+            <h1 class="photo-title">课堂时光</h1>
+        </div>
+        <div class="description">
+            <h2>📝 回忆记录</h2>
+            <p>教室里回荡着朗朗书声，黑板上写满了知识的痕迹。上课时的认真，下课后的打闹，还有那些被老师抓包的小纸条。</p>
+            <p style="margin-top: 20px;">✏️ 最难忘：一起为了考试而奋斗的日子</p>
+        </div>
+    </div>
+    <footer><p>© 2026 班级回忆录 | 青春不散场</p></footer>
+</body>
+</html>
