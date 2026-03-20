@@ -818,6 +818,7 @@
             <li><a href="#classmates">同学</a></li>
             <li><a href="#timeline">时光</a></li>
             <li><a href="#messages">留言</a></li>
+            <li><a href="future-letter.html">未来的信</a></li>
         </ul>
     </nav>
     
@@ -896,6 +897,15 @@
                         <div class="photo-title">课堂时光</div>
                     </div>
                     <div class="photo-overlay"><span>点击查看</span></div>
+                </div>
+                </a>
+                <a href="future-letter.html" style="text-decoration: none; color: inherit;">
+                <div class="photo-card fade-in">
+                    <div class="photo-content">
+                        <div class="photo-icon">✉️</div>
+                        <div class="photo-title">未来的信</div>
+                    </div>
+                    <div class="photo-overlay"><span>写信给未来</span></div>
                 </div>
                 </a>
             </div>
@@ -1171,7 +1181,7 @@
         document.querySelectorAll('.fade-in, .timeline-item').forEach(el => {
             observer.observe(el);
         });
-        
+
         // 平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1183,5 +1193,9 @@
             });
         });
     </script>
+
+    <!-- 音乐播放器 -->
+    <link rel="stylesheet" href="css/music-player.css">
+    <script src="js/music-player.js"></script>
 </body>
 </html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未来的信 - 班级回忆录</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e1b4b;
+            --light: #f8fafc;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', 'Microsoft YaHei', sans-serif;
+            background: #0f0f1a;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 动态背景 */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px 40px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(32px, 5vw, 56px);
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: rgba(255,255,255,0.6);
+            font-size: 18px;
+        }
+
+        /* 写信表单 */
+        .write-letter-section {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .write-letter-section h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 20px rgba(99,102,241,0.2);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(99,102,241,0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 信件列表 */
+        .letters-section h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%);
+            animation: haloRotate 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes haloRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(99,102,241,0.3);
+            border-color: rgba(99,102,241,0.5);
+        }
+
+        .letter-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .letter-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .letter-info {
+            flex: 1;
+        }
+
+        .letter-author {
+            font-weight: 600;
+            font-size: 16px;
+            background: linear-gradient(135deg, #f472b6, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .letter-date {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+        }
+
+        .letter-content {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.8;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .letter-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .letter-link:hover {
+            color: var(--accent);
+        }
+
+        /* 加载状态 */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 提示信息 */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-info {
+            background: rgba(99,102,241,0.2);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .alert-success {
+            background: rgba(34,197,94,0.2);
+            border: 1px solid rgba(34,197,94,0.3);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .alert-error {
+            background: rgba(239,68,68,0.2);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 60px;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 20px;
+            }
+
+            .write-letter-section {
+                padding: 25px;
+            }
+
+            .letters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态背景 -->
+    <div class="bg-animation"></div>
+
+    <!-- 返回按钮 -->
+    <a href="index.html" class="back-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        返回首页
+    </a>
+
+    <!-- 导航栏 -->
+    <nav>
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="index.html#photos">回忆</a></li>
+            <li><a href="index.html#classmates">同学</a></li>
+            <li><a href="index.html#timeline">时光</a></li>
+            <li><a href="index.html#messages">留言</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>✉️ 未来的信</h1>
+            <p>写给未来的自己，写给亲爱的同学</p>
+        </div>
+
+        <!-- 提示信息 -->
+        <div id="alert-container"></div>
+
+        <!-- 写信表单 -->
+        <div class="write-letter-section">
+            <h2>📝 写一封信</h2>
+            <form id="letter-form">
+                <div class="form-group">
+                    <label for="author">你的名字</label>
+                    <input type="text" id="author" name="author" required placeholder="请输入你的名字">
+                </div>
+                <div class="form-group">
+                    <label for="title">信件标题</label>
+                    <input type="text" id="title" name="title" required placeholder="这封信的主题">
+                </div>
+                <div class="form-group">
+                    <label for="content">信的内容</label>
+                    <textarea id="content" name="content" required placeholder="写下你想说的话..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    发送信件
+                </button>
+            </form>
+        </div>
+
+        <!-- 信件列表 -->
+        <div class="letters-section">
+            <h2>📬 收到的信 <span id="letter-count" style="font-size: 14px; color: rgba(255,255,255,0.5); margin-left: 10px;"></span></h2>
+            <div class="letters-grid" id="letters-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载信件...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 立格实验学校 2026 级 8 班 | 青春不散场</p>
+    </footer>
+
+    <!-- 音乐播放器 -->
+    <link rel="stylesheet" href="css/music-player.css">
+    <script src="js/music-player.js"></script>
+
+    <script>
+        // GitHub 配置 - 请修改为你的 GitHub 信息
+        const GITHUB_CONFIG = {
+            owner: 'siyuan211',  // 你的 GitHub 用户名
+            repo: 'szsy202608-memory.github.io',  // 你的仓库名称
+            token: ''  // 你的 GitHub Token（可选，用于提高 API 限制）
+        };
+
+        // 显示提示信息
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `<span>${message}</span>`;
+            container.appendChild(alert);
+            setTimeout(() => alert.remove(), 5000);
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (days === 0) return '今天';
+            if (days === 1) return '昨天';
+            if (days < 7) return `${days}天前`;
+            
+            return date.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // 获取头像
+        function getAvatar(name) {
+            const emojis = ['😀', '😊', '🌟', '🎓', '📚', '🎨', '🎵', '🏀', '🎮', '🌈'];
+            const index = name.charCodeAt(0) % emojis.length;
+            return emojis[index];
+        }
+
+        // 加载信件（从 GitHub Issues）
+        async function loadLetters() {
+            const lettersGrid = document.getElementById('letters-grid');
+            const letterCount = document.getElementById('letter-count');
+            
+            try {
+                // 首先尝试从本地存储加载
+                const localLetters = localStorage.getItem('class-letters');
+                if (localLetters) {
+                    const letters = JSON.parse(localLetters);
+                    renderLetters(letters);
+                    letterCount.textContent = `(${letters.length}封)`;
+                }
+
+                // 然后从 GitHub 加载最新数据
+                const response = await fetch(
+                    `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues?state=all&labels=letter`
+                );
+                
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        throw new Error('请先在 GitHub 仓库中创建 "letter" 标签');
+                    }
+                    throw new Error('加载失败：' + response.statusText);
+                }
+                
+                const issues = await response.json();
+                const letters = issues
+                    .filter(issue => !issue.pull_request) // 排除 PR
+                    .map(issue => ({
+                        id: issue.id,
+                        author: issue.user.login,
+                        avatar: issue.user.avatar_url,
+                        title: issue.title,
+                        content: issue.body,
+                        date: issue.created_at,
+                        url: issue.html_url,
+                        number: issue.number
+                    }));
+                
+                // 保存到本地存储
+                localStorage.setItem('class-letters', JSON.stringify(letters));
+                
+                renderLetters(letters);
+                letterCount.textContent = `(${letters.length}封)`;
+                
+            } catch (error) {
+                console.error('加载信件失败:', error);
+                lettersGrid.innerHTML = `
+                    <div class="alert alert-error" style="grid-column: 1/-1;">
+                        ⚠️ 加载失败：${error.message}
+                        <br><small>请检查 GitHub 配置是否正确</small>
+                    </div>
+                `;
+            }
+        }
+
+        // 渲染信件
+        function renderLetters(letters) {
+            const lettersGrid = document.getElementById('letters-grid');
+            
+            if (letters.length === 0) {
+                lettersGrid.innerHTML = `
+                    <div class="loading">
+                        <p>还没有信件，快来写第一封吧！✉️</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            lettersGrid.innerHTML = letters.map(letter => {
+                const isGithubAvatar = letter.avatar && letter.avatar.includes('github');
+                return `
+                    <div class="letter-card">
+                        <div class="letter-header">
+                            ${isGithubAvatar 
+                                ? `<img src="${letter.avatar}" alt="${letter.author}" class="letter-avatar" style="object-fit: cover;">`
+                                : `<div class="letter-avatar">${getAvatar(letter.author)}</div>`
+                            }
+                            <div class="letter-info">
+                                <div class="letter-author">${escapeHtml(letter.author)}</div>
+                                <div class="letter-date">${formatDate(letter.date)}</div>
+                            </div>
+                        </div>
+                        <div class="letter-content">${escapeHtml(letter.title)}</div>
+                        <div class="letter-content" style="margin-top: 10px; font-size: 14px; color: rgba(255,255,255,0.6);">${escapeHtml(letter.content)}</div>
+                        <a href="${letter.url}" target="_blank" class="letter-link">
+                            在 GitHub 上查看 →
+                        </a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // HTML 转义
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 提交信件
+        document.getElementById('letter-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const author = document.getElementById('author').value.trim();
+            const title = document.getElementById('title').value.trim();
+            const content = document.getElementById('content').value.trim();
+            
+            if (!author || !title || !content) {
+                showAlert('请填写所有字段', 'error');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '发送中...';
+            
+            try {
+                // 检查配置
+                if (GITHUB_CONFIG.owner === 'YOUR_GITHUB_USERNAME') {
+                    // 如果没有配置，保存到本地存储
+                    const letter = {
+                        id: Date.now(),
+                        author: author,
+                        title: title,
+                        content: content,
+                        date: new Date().toISOString(),
+                        url: '#',
+                        number: 0
+                    };
+                    
+                    let letters = JSON.parse(localStorage.getItem('class-letters') || '[]');
+                    letters.unshift(letter);
+                    localStorage.setItem('class-letters', JSON.stringify(letters));
+                    
+                    showAlert('信件已保存（本地模式）', 'success');
+                    document.getElementById('letter-form').reset();
+                    loadLetters();
+                } else {
+                    // 提交到 GitHub Issues
+                    const response = await fetch(
+                        `https://api.github.com/repos/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/issues`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': GITHUB_CONFIG.token ? `token ${GITHUB_CONFIG.token}` : '',
+                                'Accept': 'application/vnd.github.v3+json'
+                            },
+                            body: JSON.stringify({
+                                title: `[信] ${title}`,
+                                body: `**来自:** ${author}\n\n${content}`,
+                                labels: ['letter']
+                            })
+                        }
+                    );
+                    
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || '提交失败');
+                    }
+                    
+                    const result = await response.json();
+                    
+                    showAlert('信件发送成功！', 'success');
+                    document.getElementById('letter-form').reset();
+                    loadLetters();
+                }
+                
+            } catch (error) {
+                console.error('提交失败:', error);
+                showAlert('发送失败：' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    发送信件
+                `;
+            }
+        });
+
+        // 页面加载时获取信件
+        loadLetters();
+    </script>
+</body>
+</html>
